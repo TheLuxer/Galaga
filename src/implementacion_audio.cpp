@@ -41,7 +41,7 @@ int main() {
 
     // Cargar la imagen de fondo
     sf::Texture backgroundTexture;
-    if (!backgroundTexture.loadFromFile("assets/images/urban-landscape-background-Preview.png")) {
+    if (!backgroundTexture.loadFromFile("assets/images/Fondo.png")) {
         std::cerr << "Error: No se pudo cargar la imagen de fondo" << std::endl;
         return -1;
     }
