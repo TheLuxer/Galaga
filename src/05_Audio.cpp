@@ -6,7 +6,7 @@ int main()
     sf::RenderWindow window(sf::VideoMode(800, 600), "Reproductor de musica");
 
     sf::Music music;
-    if (!music.openFromFile("./assets/music/musica.ogg"))
+    if (!music.openFromFile("assets/music/Cyberpunk-Moonlight-Sonata.ogg"))
     {
         // Error al cargar el archivo de música
         return -1;
