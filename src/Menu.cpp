@@ -127,14 +127,14 @@ int main() {
 
     // Cargar la imagen de fondo de la pantalla de inicio
     sf::Texture startBackgroundTexture;
-    if (!startBackgroundTexture.loadFromFile("assets/images/out_of_depth_arcade.png")) {
+    if (!startBackgroundTexture.loadFromFile("assets/images/Arcade.png")) {
         std::cerr << "Error: No se pudo cargar la imagen de fondo de la pantalla de inicio" << std::endl;
         return -1;
     }
     sf::Sprite startBackgroundSprite(startBackgroundTexture);
 
     // Ajustar el tamaño del fondo al tamaño de la ventana
-    float scaleFactorX = (window.getSize().x / startBackgroundSprite.getLocalBounds().width) * 0.8f; // 80% del ancho original
+    float scaleFactorX = (window.getSize().x / startBackgroundSprite.getLocalBounds().width) * 0.7f; // 70% del ancho original
     float scaleFactorY = window.getSize().y / startBackgroundSprite.getLocalBounds().height;
     startBackgroundSprite.setScale(scaleFactorX, scaleFactorY);
     startBackgroundSprite.setPosition((window.getSize().x - startBackgroundSprite.getGlobalBounds().width) / 2, 0);
@@ -210,7 +210,7 @@ int main() {
 
     try {
         // Ruta correcta de la imagen del personaje
-        Personaje dino("assets/images/spr_enemy1_strip2.png", sf::Vector2f(0, 50));
+        Personaje dino("assets/images/Avion.png", sf::Vector2f(0, 50));
 
         // Pantalla de inicio
         while (window.isOpen()) {
