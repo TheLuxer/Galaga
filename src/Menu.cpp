@@ -3,6 +3,7 @@
 #include <iostream>
 #include <stdexcept> // Para manejar excepciones
 #include <vector>
+#include <cstdlib>
 
 // Clase Proyectil
 class Proyectil {
@@ -43,7 +44,7 @@ public:
         }
         sprite.setTexture(texture);
         sprite.setPosition(position);
-        sprite.setScale(0.8f, 0.8f); // Ajuste del tamaño del personaje
+        sprite.setScale(0.9f, 0.9f); // Ajuste del tamaño del personaje
     }
 
     void move(float offsetX, float offsetY) {
@@ -115,6 +116,7 @@ int main() {
     const float velocidadProyectil = 500.0f; // Velocidad del proyectil en píxeles por segundo
     const float velocidadEnemigo = 100.0f;   // Velocidad del enemigo en píxeles por segundo
     sf::Clock clock;
+    sf::Clock gameClock; // Reloj para medir el tiempo jugado
     std::vector<Proyectil> proyectiles;
     std::vector<Proyectil> proyectilesEnemigos;
     std::vector<Enemigo> enemigos;
@@ -185,6 +187,12 @@ int main() {
     instructions.setPosition(
         (window.getSize().x - instructions.getGlobalBounds().width) / 2,
         450);
+    // Crear un texto para mostrar el tiempo jugado
+    sf::Text scoreText;
+    scoreText.setFont(font);
+    scoreText.setCharacterSize(50);
+    scoreText.setFillColor(sf::Color::White);
+    scoreText.setPosition(10, 10);
 
     try {
         // Ruta correcta de la imagen del personaje
@@ -201,6 +209,7 @@ int main() {
 
             // Verificar si se presiona ENTER para comenzar
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+                gameClock.restart(); // Reiniciar el reloj al comenzar el juego
                 break;
             }
 
@@ -226,17 +235,21 @@ int main() {
             sf::Vector2f pos = dino.getPosition();
             sf::Vector2f size = dino.getSize();
 
-            // Movimiento del personaje
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && pos.x > 0) {
+            // Actualizar tiempo jugado
+            float gameTime = gameClock.getElapsedTime().asSeconds();
+            scoreText.setString("Score: " + std::to_string(static_cast<int>(gameTime)) + "");
+
+            // Movimiento del personaje con teclas de dirección y WASD
+            if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A)) && pos.x > 0) {
                 dino.move(-velocidad * deltaTime, 0);
             }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && pos.x + size.x < window.getSize().x) {
+            if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) && pos.x + size.x < window.getSize().x) {
                 dino.move(velocidad * deltaTime, 0);
             }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) && pos.y > 0) {
+            if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W)) && pos.y > 0) {
                 dino.move(0, -velocidad * deltaTime);
             }
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && pos.y + size.y < window.getSize().y) {
+            if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S)) && pos.y + size.y < window.getSize().y) {
                 dino.move(0, velocidad * deltaTime);
             }
 
@@ -330,6 +343,7 @@ int main() {
             for (auto &enemigo : enemigos) {
                 enemigo.draw(window);
             }
+            window.draw(scoreText); // Dibujar el tiempo jugado
             window.display();
         }
     } catch (const std::exception &e) {
