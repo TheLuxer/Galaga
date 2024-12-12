@@ -43,6 +43,7 @@ public:
         }
         sprite.setTexture(texture);
         sprite.setPosition(position);
+        sprite.setScale(0.8f, 0.8f); // Ajuste del tamaño del personaje
     }
 
     void move(float offsetX, float offsetY) {
@@ -73,26 +74,26 @@ private:
 // Clase Enemigo
 class Enemigo {
 public:
-    Enemigo(const sf::Vector2f &position) : shootClock() {
-        shape.setSize(sf::Vector2f(30, 30)); // Tamaño del enemigo
-        shape.setFillColor(sf::Color::Green);
-        shape.setPosition(position);
+    Enemigo(const sf::Vector2f &position, sf::Texture &texture) : shootClock() {
+        sprite.setTexture(texture);
+        sprite.setPosition(position);
+        sprite.setScale(0.1f, 0.1f); // Ajuste del tamaño del enemigo para que sea proporcional
     }
 
     void move(float offsetX, float offsetY) {
-        shape.move(offsetX, offsetY);
+        sprite.move(offsetX, offsetY);
     }
 
     void draw(sf::RenderWindow &window) {
-        window.draw(shape);
+        window.draw(sprite);
     }
 
     sf::Vector2f getPosition() const {
-        return shape.getPosition();
+        return sprite.getPosition();
     }
 
     sf::FloatRect getBounds() const {
-        return shape.getGlobalBounds();
+        return sprite.getGlobalBounds();
     }
 
     bool canShoot() {
@@ -104,7 +105,7 @@ public:
     }
 
 private:
-    sf::RectangleShape shape;
+    sf::Sprite sprite;
     sf::Clock shootClock;
 };
 
@@ -143,6 +144,13 @@ int main() {
         window.getSize().x / gameBackgroundTexture.getSize().x,
         window.getSize().y / gameBackgroundTexture.getSize().y);
 
+    // Cargar la textura de los enemigos
+    sf::Texture enemyTexture;
+    if (!enemyTexture.loadFromFile("assets/images/Ovi.png")) {
+        std::cerr << "Error: No se pudo cargar la textura del enemigo" << std::endl;
+        return -1;
+    }
+
     // Cargar el audio
     sf::Music music;
     if (!music.openFromFile("assets/music/Cyberpunk-Moonlight-Sonata.ogg")) {
@@ -154,29 +162,29 @@ int main() {
 
     // Cargar la fuente de texto TTF
     sf::Font font;
-    if (!font.loadFromFile("./assets/fonts/Eje.ttf")) {
+    if (!font.loadFromFile("assets/fonts/retro.ttf")) {
         return -1;
     }
 
     // Crear un texto para el título
     sf::Text title;
     title.setFont(font);
-    title.setString("Bienvenido a Galaga");
-    title.setCharacterSize(100);
+    title.setString("Bienvenido a Sky Rider");
+    title.setCharacterSize(150);
     title.setFillColor(sf::Color::White);
     title.setPosition(
         (window.getSize().x - title.getGlobalBounds().width) / 2,
-        150);
+        300);
 
     // Crear un texto para las instrucciones
     sf::Text instructions;
     instructions.setFont(font);
     instructions.setString("Presiona ENTER para comenzar");
-    instructions.setCharacterSize(50);
+    instructions.setCharacterSize(75);
     instructions.setFillColor(sf::Color::Yellow);
     instructions.setPosition(
         (window.getSize().x - instructions.getGlobalBounds().width) / 2,
-        300);
+        450);
 
     try {
         // Ruta correcta de la imagen del personaje
@@ -262,7 +270,7 @@ int main() {
 
             // Generar enemigos periódicamente
             if (enemySpawnClock.getElapsedTime().asSeconds() > 2.0f) {
-                enemigos.push_back(Enemigo(sf::Vector2f(window.getSize().x, rand() % window.getSize().y)));
+                enemigos.push_back(Enemigo(sf::Vector2f(window.getSize().x, rand() % window.getSize().y), enemyTexture));
                 enemySpawnClock.restart();
             }
 
