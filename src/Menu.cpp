@@ -47,11 +47,11 @@ int main() {
     }
     sf::Sprite startBackgroundSprite(startBackgroundTexture);
 
-    // Ajustar el tamaño del fondo al tamaño de la ventana
-    startBackgroundSprite.setScale(
-        window.getSize().x / startBackgroundSprite.getLocalBounds().width,
-        window.getSize().y / startBackgroundSprite.getLocalBounds().height
-    );
+    // Ajustar el tamaño del fondo al tamaño de la ventana, pero un poco más angosto
+    float scaleFactorX = (window.getSize().x / startBackgroundSprite.getLocalBounds().width) * 0.8f; // 80% del ancho original
+    float scaleFactorY = window.getSize().y / startBackgroundSprite.getLocalBounds().height;
+    startBackgroundSprite.setScale(scaleFactorX, scaleFactorY);
+    startBackgroundSprite.setPosition((window.getSize().x - startBackgroundSprite.getGlobalBounds().width) / 2, 0);
 
     // Cargar la imagen de fondo del juego
     sf::Texture gameBackgroundTexture;
