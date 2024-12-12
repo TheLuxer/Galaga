@@ -2,6 +2,35 @@
 #include <SFML/Audio.hpp>
 #include <iostream>
 #include <stdexcept> // Para manejar excepciones
+#include <vector>
+
+class Proyectil {
+public:
+    Proyectil(const sf::Vector2f& position) {
+        shape.setSize(sf::Vector2f(10, 5)); // Tamaño del proyectil
+        shape.setFillColor(sf::Color::Red);
+        shape.setPosition(position);
+    }
+
+    void move(float offsetX, float offsetY) {
+        shape.move(offsetX, offsetY);
+    }
+
+    void draw(sf::RenderWindow& window) {
+        window.draw(shape);
+    }
+
+    sf::Vector2f getPosition() const {
+        return shape.getPosition();
+    }
+
+    sf::FloatRect getBounds() const {
+        return shape.getGlobalBounds();
+    }
+
+private:
+    sf::RectangleShape shape;
+};
 
 class Personaje {
 public:
@@ -25,19 +54,25 @@ public:
         return sprite.getPosition();
     }
 
+    sf::FloatRect getBounds() const {
+        return sprite.getGlobalBounds();
+    }
+
     sf::Vector2f getSize() const {
         return sf::Vector2f(sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
     }
 
 private:
-    sf::Texture texture; // Almacena la textura cargada
-    sf::Sprite sprite;   // Sprite que representa al personaje
+    sf::Texture texture;
+    sf::Sprite sprite;
 };
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(1920, 1000), "Pantalla de Inicio Galaga");
     const float velocidad = 200.0f; // Velocidad en píxeles por segundo
+    const float velocidadProyectil = 500.0f; // Velocidad del proyectil en píxeles por segundo
     sf::Clock clock;
+    std::vector<Proyectil> proyectiles;
 
     // Cargar la imagen de fondo de la pantalla de inicio
     sf::Texture startBackgroundTexture;
@@ -158,9 +193,30 @@ int main() {
                 dino.move(0, velocidad * deltaTime);
             }
 
+            // Disparar proyectil con la tecla Espacio
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+                proyectiles.push_back(Proyectil(sf::Vector2f(pos.x + size.x, pos.y + size.y / 2)));
+            }
+
+            // Mover y dibujar proyectiles
+            for (auto& proyectil : proyectiles) {
+                proyectil.move(velocidadProyectil * deltaTime, 0);
+            }
+
+            // Eliminar proyectiles que salieron de la pantalla
+            proyectiles.erase(
+                std::remove_if(proyectiles.begin(), proyectiles.end(), [&window](const Proyectil& proyectil) {
+                    return proyectil.getPosition().x > window.getSize().x;
+                }),
+                proyectiles.end()
+            );
+
             window.clear();
             window.draw(gameBackgroundSprite); // Dibujar el fondo del juego
             dino.draw(window);
+            for (auto& proyectil : proyectiles) {
+                proyectil.draw(window);
+            }
             window.display();
 
             // Esperar hasta que la música termine
