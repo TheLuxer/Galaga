@@ -67,6 +67,10 @@ public:
         return sf::Vector2f(sprite.getGlobalBounds().width, sprite.getGlobalBounds().height);
     }
 
+    void reset(const sf::Vector2f &position) {
+        sprite.setPosition(position);
+    }
+
 private:
     sf::Texture texture;
     sf::Sprite sprite;
@@ -194,6 +198,16 @@ int main() {
     scoreText.setFillColor(sf::Color::White);
     scoreText.setPosition(10, 10);
 
+    // Crear un texto para mostrar "Game Over"
+    sf::Text gameOverText;
+    gameOverText.setFont(font);
+    gameOverText.setString("Game Over");
+    gameOverText.setCharacterSize(100);
+    gameOverText.setFillColor(sf::Color::Red);
+    gameOverText.setPosition(
+        (window.getSize().x - gameOverText.getGlobalBounds().width) / 2,
+        (window.getSize().y - gameOverText.getGlobalBounds().height) / 2);
+
     try {
         // Ruta correcta de la imagen del personaje
         Personaje dino("assets/images/spr_enemy1_strip2.png", sf::Vector2f(0, 50));
@@ -305,8 +319,43 @@ int main() {
             // Detección de colisiones entre proyectiles enemigos y el jugador
             for (auto &proyectil : proyectilesEnemigos) {
                 if (proyectil.getBounds().intersects(dino.getBounds())) {
-                    std::cout << "El jugador ha sido alcanzado. Fin del juego." << std::endl;
-                    window.close();
+                    // Mostrar pantalla de Game Over
+                    window.clear();
+                    window.draw(gameBackgroundSprite);
+                    window.draw(gameOverText);
+                    window.display();
+
+                    // Pausar para que el jugador vea el mensaje
+                    sf::sleep(sf::seconds(3));
+
+                    // Reiniciar a la pantalla principal
+                    while (true) {
+                        sf::Event event;
+                        while (window.pollEvent(event)) {
+                            if (event.type == sf::Event::Closed) {
+                                window.close();
+                                return 0;
+                            }
+                        }
+
+                        // Mostrar pantalla principal nuevamente
+                        window.clear();
+                        window.draw(startBackgroundSprite);
+                        window.draw(title);
+                        window.draw(instructions);
+                        window.display();
+
+                        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+                            // Reiniciar el juego
+                            proyectiles.clear();
+                            proyectilesEnemigos.clear();
+                            enemigos.clear();
+                            dino.reset(sf::Vector2f(0, 50));
+                            gameClock.restart();
+                            break;
+                        }
+                    }
+                    break;
                 }
             }
 
