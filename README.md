@@ -143,4 +143,4 @@ Esperamos que disfrutes de tu experiencia con Sky Rider.
 
 ![Pantalla de Inicio](assets/images/Inicio.png)
 ![Gameplay](assets/images/Principal.png)
-![Game Over](assets/images/Lost.png)assets/images/Principal.png
+![Game Over](assets/images/Lost.png)
