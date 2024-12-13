@@ -59,76 +59,72 @@ En una terminal de **MSYS2**, ejecutar los siguientes comandos:
 ```bash
 pacman -S --needed base-devel mingw-w64-x86_64-toolchain
 
-# Manual del Juego: Sky Rider
-
-## Introducción
-Sky Rider es un juego de estilo arcade en el que controlas una nave espacial para esquivar enemigos, disparar proyectiles y obtener la mayor puntuación posible. Este manual te guiará en los controles, reglas del juego y características principales.
-
 ---
 
-## Controles
+===============================
+MANUAL DEL JUEGO: SKY RIDER
+===============================
 
-### Movimiento de la nave
-- **Flecha izquierda (←)** o **tecla 'A'**: Mover la nave hacia la izquierda.
-- **Flecha derecha (→)** o **tecla 'D'**: Mover la nave hacia la derecha.
-- **Flecha arriba (↑)** o **tecla 'W'**: Mover la nave hacia arriba.
-- **Flecha abajo (↓)** o **tecla 'S'**: Mover la nave hacia abajo.
+Introducción:
+-------------
+Sky Rider es un juego de estilo arcade en el que controlas una nave espacial para esquivar enemigos, disparar proyectiles y obtener la mayor puntuación posible. Este manual te guiará en los controles, reglas del juego y características principales.
 
-### Disparo
-- **Barra espaciadora**: Disparar proyectiles hacia los enemigos.
+Controles:
+----------
+Movimiento de la nave:
+- Flecha izquierda (←) o tecla 'A': Mover la nave hacia la izquierda.
+- Flecha derecha (→) o tecla 'D': Mover la nave hacia la derecha.
+- Flecha arriba (↑) o tecla 'W': Mover la nave hacia arriba.
+- Flecha abajo (↓) o tecla 'S': Mover la nave hacia abajo.
 
-### Interacción con el juego
-- **Tecla Enter**: 
+Disparo:
+- Barra espaciadora: Disparar proyectiles hacia los enemigos.
+
+Interacción con el juego:
+- Tecla Enter: 
   - Desde la pantalla inicial: Comienza el juego.
   - Después de una pantalla de "Game Over": Reinicia el juego.
 
----
+Reglas del juego:
+------------------
+1. Objetivo principal:
+   - Sobrevive el mayor tiempo posible y acumula puntos al destruir enemigos.
 
-## Reglas del Juego
+2. Proyectiles enemigos:
+   - Los enemigos disparan proyectiles periódicamente. Si un proyectil enemigo impacta tu nave, aparecerá la pantalla de "Game Over".
 
-### Objetivo principal
-- Sobrevive el mayor tiempo posible y acumula puntos al destruir enemigos.
+3. Generación de enemigos:
+   - Los enemigos se generan automáticamente desde el borde derecho de la pantalla y se mueven hacia la izquierda.
 
-### Proyectiles enemigos
-- Los enemigos disparan proyectiles periódicamente. Si un proyectil enemigo impacta tu nave, aparecerá la pantalla de "Game Over".
+4. Game Over:
+   - Al ser impactado por un proyectil enemigo, aparecerá la pantalla de "Game Over".
+   - Presiona Enter para reiniciar el juego y volver a la pantalla de inicio.
 
-### Generación de enemigos
-- Los enemigos se generan automáticamente desde el borde derecho de la pantalla y se mueven hacia la izquierda.
-
-### Game Over
-- Al ser impactado por un proyectil enemigo, aparecerá la pantalla de "Game Over".
-- Presiona **Enter** para reiniciar el juego y volver a la pantalla de inicio.
-
----
-
-## Características
-
-1. **Diseño gráfico**:
+Características:
+----------------
+1. Diseño gráfico:
    - Fondos visualmente atractivos tanto para la pantalla de inicio como para el juego principal.
    - Enemigos y proyectiles diseñados con sprites personalizados.
 
-2. **Música**:
+2. Música:
    - Una banda sonora de fondo que se reproduce en bucle para una experiencia inmersiva.
 
-3. **Puntuación**:
+3. Puntuación:
    - El puntaje se basa en el tiempo de supervivencia. Se muestra en la esquina superior izquierda durante el juego.
 
-4. **Dificultad**:
+4. Dificultad:
    - Los enemigos aparecen con intervalos regulares, y sus proyectiles aumentan la dificultad con el tiempo.
 
----
-
-## Resolución de Problemas
-
-1. **Si el juego no inicia**:
+Resolución de problemas:
+-------------------------
+1. Si el juego no inicia:
    - Asegúrate de que todos los archivos (texturas, música, fuentes) estén en las rutas correctas según el código.
 
-2. **La música no se escucha**:
+2. La música no se escucha:
    - Verifica que el archivo de audio exista en la carpeta `assets/music` con el nombre exacto mencionado en el código.
 
-3. **Comportamientos inesperados**:
+3. Comportamientos inesperados:
    - Revisa el código fuente en busca de errores en las funciones relacionadas.
 
----
-
-¡Buena suerte y disfruta jugando Sky Rider!
+Esperamos que disfrutes de tu experiencia con Sky Rider.
+¡Buena suerte!
