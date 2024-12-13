@@ -146,9 +146,15 @@ int main() {
         return -1;
     }
     sf::Sprite gameBackgroundSprite(gameBackgroundTexture);
-    gameBackgroundSprite.setScale(
-        window.getSize().x / gameBackgroundTexture.getSize().x,
-        window.getSize().y / gameBackgroundTexture.getSize().y);
+    float startScaleX = (window.getSize().x / startBackgroundSprite.getLocalBounds().width) * 0.7f; // 70% del ancho original
+    float startScaleY = window.getSize().y / startBackgroundSprite.getLocalBounds().height;
+    startBackgroundSprite.setScale(startScaleX, startScaleY);
+    startBackgroundSprite.setPosition((window.getSize().x - startBackgroundSprite.getGlobalBounds().width) / 2, 0);
+
+    // Ajustar el fondo del juego para que cubra toda la pantalla
+    float gameScaleX = static_cast<float>(window.getSize().x) / gameBackgroundTexture.getSize().x;
+    float gameScaleY = static_cast<float>(window.getSize().y) / gameBackgroundTexture.getSize().y;
+    gameBackgroundSprite.setScale(gameScaleX, gameScaleY);
 
     // Cargar la textura de los enemigos
     sf::Texture enemyTexture;
