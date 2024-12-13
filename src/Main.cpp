@@ -5,36 +5,7 @@
 #include <vector>
 #include <cstdlib>
 #include "../include/ClasePersonaje.hpp"
-
-// Clase Proyectil
-class Proyectil {
-public:
-    Proyectil(const sf::Vector2f &position, const sf::Vector2f &velocity) : velocity(velocity) {
-        shape.setSize(sf::Vector2f(10, 5)); // Tamaño del proyectil
-        shape.setFillColor(sf::Color::Red);
-        shape.setPosition(position);
-    }
-
-    void move(float deltaTime) {
-        shape.move(velocity * deltaTime);
-    }
-
-    void draw(sf::RenderWindow &window) {
-        window.draw(shape);
-    }
-
-    sf::Vector2f getPosition() const {
-        return shape.getPosition();
-    }
-
-    sf::FloatRect getBounds() const {
-        return shape.getGlobalBounds();
-    }
-
-private:
-    sf::RectangleShape shape;
-    sf::Vector2f velocity;
-};
+#include "../include/ClaseProyectil.hpp"
 
 // Clase Enemigo
 class Enemigo {
@@ -85,7 +56,6 @@ int main() {
     std::vector<Proyectil> proyectilesEnemigos;
     std::vector<Enemigo> enemigos;
 
-    // Cargar la imagen de fondo de la pantalla de inicio
     sf::Texture startBackgroundTexture;
     if (!startBackgroundTexture.loadFromFile("assets/images/Arcade.png")) {
         std::cerr << "Error: No se pudo cargar la imagen de fondo de la pantalla de inicio" << std::endl;
@@ -93,7 +63,7 @@ int main() {
     }
     sf::Sprite startBackgroundSprite(startBackgroundTexture);
 
-    float scaleFactorX = (window.getSize().x / startBackgroundSprite.getLocalBounds().width) * 0.7f; // 70% del ancho original
+    float scaleFactorX = (window.getSize().x / startBackgroundSprite.getLocalBounds().width) * 0.7f;
     float scaleFactorY = window.getSize().y / startBackgroundSprite.getLocalBounds().height;
     startBackgroundSprite.setScale(scaleFactorX, scaleFactorY);
     startBackgroundSprite.setPosition((window.getSize().x - startBackgroundSprite.getGlobalBounds().width) / 2, 0);
@@ -194,7 +164,6 @@ int main() {
             float gameTime = gameClock.getElapsedTime().asSeconds();
             scoreText.setString("Score: " + std::to_string(static_cast<int>(gameTime)) + "");
 
-            // Movimiento del personaje
             if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A)) && pos.x > 0) {
                 dino.move(-velocidad * deltaTime, 0);
             }
