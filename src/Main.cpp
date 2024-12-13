@@ -8,6 +8,7 @@
 #include "../include/ClaseProyectil.hpp"
 #include "../include/ClaseEnemigo.hpp"
 #include "../include/ClaseRecursos.hpp"
+#include "../include/ClaseControl.hpp"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(1920, 1000), "Pantalla de Inicio Galaga");
@@ -23,6 +24,7 @@ int main() {
     try {
         Recursos recursos(window);
         Personaje dino("assets/images/Avion.png", sf::Vector2f(0, 50));
+        Control control(dino, velocidad);
 
         // Pantalla de inicio
         while (window.isOpen()) {
@@ -53,28 +55,9 @@ int main() {
             }
 
             float deltaTime = clock.restart().asSeconds();
-
-            sf::Vector2f pos = dino.getPosition();
-            sf::Vector2f size = dino.getSize();
-
             int gameTime = static_cast<int>(gameClock.getElapsedTime().asSeconds());
 
-            if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A)) && pos.x > 0) {
-                dino.move(-velocidad * deltaTime, 0);
-            }
-            if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Right) || sf::Keyboard::isKeyPressed(sf::Keyboard::D)) && pos.x + size.x < window.getSize().x) {
-                dino.move(velocidad * deltaTime, 0);
-            }
-            if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Up) || sf::Keyboard::isKeyPressed(sf::Keyboard::W)) && pos.y > 0) {
-                dino.move(0, -velocidad * deltaTime);
-            }
-            if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Down) || sf::Keyboard::isKeyPressed(sf::Keyboard::S)) && pos.y + size.y < window.getSize().y) {
-                dino.move(0, velocidad * deltaTime);
-            }
-
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-                proyectiles.push_back(Proyectil(sf::Vector2f(pos.x + size.x, pos.y + size.y / 2), sf::Vector2f(velocidadProyectil, 0)));
-            }
+            control.update(deltaTime, proyectiles, velocidadProyectil);
 
             for (auto &proyectil : proyectiles) {
                 proyectil.move(deltaTime);
