@@ -7,6 +7,7 @@
 #include "../include/ClasePersonaje.hpp"
 #include "../include/ClaseProyectil.hpp"
 #include "../include/ClaseEnemigo.hpp"
+#include "../include/ClaseRecursos.hpp"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(1920, 1000), "Pantalla de Inicio Galaga");
@@ -19,77 +20,11 @@ int main() {
     std::vector<Proyectil> proyectilesEnemigos;
     std::vector<Enemigo> enemigos;
 
-    sf::Texture startBackgroundTexture;
-    if (!startBackgroundTexture.loadFromFile("assets/images/Arcade.png")) {
-        std::cerr << "Error: No se pudo cargar la imagen de fondo de la pantalla de inicio" << std::endl;
-        return -1;
-    }
-    sf::Sprite startBackgroundSprite(startBackgroundTexture);
-
-    float scaleFactorX = (window.getSize().x / startBackgroundSprite.getLocalBounds().width) * 0.7f;
-    float scaleFactorY = window.getSize().y / startBackgroundSprite.getLocalBounds().height;
-    startBackgroundSprite.setScale(scaleFactorX, scaleFactorY);
-    startBackgroundSprite.setPosition((window.getSize().x - startBackgroundSprite.getGlobalBounds().width) / 2, 0);
-
-    sf::Texture gameBackgroundTexture;
-    if (!gameBackgroundTexture.loadFromFile("assets/images/Fondo.png")) {
-        std::cerr << "Error: No se pudo cargar la imagen de fondo del juego" << std::endl;
-        return -1;
-    }
-    sf::Sprite gameBackgroundSprite(gameBackgroundTexture);
-    float gameScaleX = static_cast<float>(window.getSize().x) / gameBackgroundTexture.getSize().x;
-    float gameScaleY = static_cast<float>(window.getSize().y) / gameBackgroundTexture.getSize().y;
-    gameBackgroundSprite.setScale(gameScaleX, gameScaleY);
-
-    sf::Texture enemyTexture;
-    if (!enemyTexture.loadFromFile("assets/images/Ovi.png")) {
-        std::cerr << "Error: No se pudo cargar la textura del enemigo" << std::endl;
-        return -1;
-    }
-
-    sf::Music music;
-    if (!music.openFromFile("assets/music/Cyberpunk-Moonlight-Sonata.ogg")) {
-        std::cerr << "Error: No se pudo cargar el archivo de audio" << std::endl;
-        return -1;
-    }
-    music.setLoop(true);
-    music.play();
-
-    sf::Font font;
-    if (!font.loadFromFile("assets/fonts/retro.ttf")) {
-        return -1;
-    }
-
-    sf::Text title;
-    title.setFont(font);
-    title.setString("Bienvenido a Sky Rider");
-    title.setCharacterSize(150);
-    title.setFillColor(sf::Color::White);
-    title.setPosition((window.getSize().x - title.getGlobalBounds().width) / 2, 300);
-
-    sf::Text instructions;
-    instructions.setFont(font);
-    instructions.setString("Presiona ENTER para comenzar");
-    instructions.setCharacterSize(75);
-    instructions.setFillColor(sf::Color::Yellow);
-    instructions.setPosition((window.getSize().x - instructions.getGlobalBounds().width) / 2, 450);
-
-    sf::Text scoreText;
-    scoreText.setFont(font);
-    scoreText.setCharacterSize(50);
-    scoreText.setFillColor(sf::Color::White);
-    scoreText.setPosition(10, 10);
-
-    sf::Text gameOverText;
-    gameOverText.setFont(font);
-    gameOverText.setString("Game Over");
-    gameOverText.setCharacterSize(100);
-    gameOverText.setFillColor(sf::Color::Red);
-    gameOverText.setPosition((window.getSize().x - gameOverText.getGlobalBounds().width) / 2, (window.getSize().y - gameOverText.getGlobalBounds().height) / 2);
-
     try {
+        Recursos recursos(window);
         Personaje dino("assets/images/Avion.png", sf::Vector2f(0, 50));
 
+        // Pantalla de inicio
         while (window.isOpen()) {
             sf::Event event;
             while (window.pollEvent(event)) {
@@ -104,9 +39,7 @@ int main() {
             }
 
             window.clear();
-            window.draw(startBackgroundSprite);
-            window.draw(title);
-            window.draw(instructions);
+            recursos.drawStartScreen();
             window.display();
         }
 
@@ -124,8 +57,7 @@ int main() {
             sf::Vector2f pos = dino.getPosition();
             sf::Vector2f size = dino.getSize();
 
-            float gameTime = gameClock.getElapsedTime().asSeconds();
-            scoreText.setString("Score: " + std::to_string(static_cast<int>(gameTime)) + "");
+            int gameTime = static_cast<int>(gameClock.getElapsedTime().asSeconds());
 
             if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Left) || sf::Keyboard::isKeyPressed(sf::Keyboard::A)) && pos.x > 0) {
                 dino.move(-velocidad * deltaTime, 0);
@@ -161,7 +93,7 @@ int main() {
             }), proyectilesEnemigos.end());
 
             if (enemySpawnClock.getElapsedTime().asSeconds() > 2.0f) {
-                enemigos.push_back(Enemigo(sf::Vector2f(window.getSize().x, rand() % window.getSize().y), enemyTexture));
+                enemigos.push_back(Enemigo(sf::Vector2f(window.getSize().x, rand() % window.getSize().y), recursos.getEnemyTexture()));
                 enemySpawnClock.restart();
             }
 
@@ -179,8 +111,8 @@ int main() {
             for (auto &proyectil : proyectilesEnemigos) {
                 if (proyectil.getBounds().intersects(dino.getBounds())) {
                     window.clear();
-                    window.draw(gameBackgroundSprite);
-                    window.draw(gameOverText);
+                    recursos.drawGameBackground();
+                    recursos.drawGameOver();
                     window.display();
                     sf::sleep(sf::seconds(3));
                     while (true) {
@@ -192,9 +124,7 @@ int main() {
                             }
                         }
                         window.clear();
-                        window.draw(startBackgroundSprite);
-                        window.draw(title);
-                        window.draw(instructions);
+                        recursos.drawStartScreen();
                         window.display();
                         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
                             proyectiles.clear();
@@ -228,7 +158,7 @@ int main() {
             }
 
             window.clear();
-            window.draw(gameBackgroundSprite);
+            recursos.drawGameBackground();
             dino.draw(window);
             for (auto &proyectil : proyectiles) {
                 proyectil.draw(window);
@@ -239,7 +169,7 @@ int main() {
             for (auto &enemigo : enemigos) {
                 enemigo.draw(window);
             }
-            window.draw(scoreText);
+            recursos.drawScore(gameTime);
             window.display();
         }
     } catch (const std::exception &e) {
