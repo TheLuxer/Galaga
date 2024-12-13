@@ -61,6 +61,18 @@ pacman -S --needed base-devel mingw-w64-x86_64-toolchain
 
 ---
 
+## Imágenes del Juego
+
+### Pantalla de Inicio
+![Pantalla de Inicio](assets/images/Inicio.png)
+
+### Pantalla Principal
+![Gameplay](assets/images/Principal.png)
+
+### Pantalla de Game Over
+![Game Over](assets/images/Lost.png)
+
+
 ===============================
 MANUAL DEL JUEGO: SKY RIDER
 ===============================
@@ -131,4 +143,4 @@ Esperamos que disfrutes de tu experiencia con Sky Rider.
 
 ![Pantalla de Inicio](assets/images/Inicio.png)
 ![Gameplay](assets/images/Principal.png)
-![Game Over](assets/images/Lost.png)
+![Game Over](assets/images/Lost.png)assets/images/Principal.png
