@@ -128,3 +128,7 @@ Resolución de problemas:
 
 Esperamos que disfrutes de tu experiencia con Sky Rider.
 ¡Buena suerte!
+
+![alt text](Inicio.png)
+![alt text](Principal.png)
+![alt text](Lost.png)
