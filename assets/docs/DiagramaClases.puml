@@ -1,0 +1,53 @@
+@startuml assets/docs/DiagramaClases.puml
+
+' Clases principales en PascalCase con métodos y atributos
+class Personaje {
+    +sf::Vector2f position
+    +sf::Vector2f size
+    +move(offsetX: float, offsetY: float): void
+    +draw(window: sf::RenderWindow): void
+    +getPosition(): sf::Vector2f
+    +getBounds(): sf::FloatRect
+    +getSize(): sf::Vector2f
+    +reset(position: sf::Vector2f): void
+}
+
+class Proyectil {
+    +sf::Vector2f velocity
+    +move(deltaTime: float): void
+    +draw(window: sf::RenderWindow): void
+    +getPosition(): sf::Vector2f
+    +getBounds(): sf::FloatRect
+}
+
+class Enemigo {
+    +sf::Clock shootClock
+    +move(offsetX: float, offsetY: float): void
+    +draw(window: sf::RenderWindow): void
+    +getPosition(): sf::Vector2f
+    +getBounds(): sf::FloatRect
+    +canShoot(): bool
+}
+
+class PantallaInicio {
+    +sf::Texture backgroundTexture
+    +sf::Text title
+    +sf::Text instructions
+    +display(window: sf::RenderWindow): void
+    +isStartPressed(): bool
+}
+
+class PantallaGameOver {
+    +sf::Text gameOverText
+    +display(window: sf::RenderWindow): void
+}
+
+' Relaciones entre las clases
+Personaje "1" *-- "*" Proyectil : compone
+Enemigo "1" *-- "*" Proyectil : compone
+PantallaInicio "1" o-- "1" Personaje : inicializa
+PantallaGameOver "1" o-- "1" Personaje : reinicia
+PantallaGameOver "1" ..> "1" PantallaInicio : transiciona
+Personaje <|-- Enemigo : hereda
+
+@enduml
