@@ -1,65 +1,60 @@
-# EjemplosJuego
+# Galaga Game Project
 
-El proyecto esta desarrollado sobre MinGW64 utilizando Msys2
-y como editor se esta utilizando Visual Studio Code
+## Descripción
 
-## Como ejecutar los ejemplos
+Este proyecto es una implementación del clásico juego **Galaga** utilizando **SFML** (Simple and Fast Multimedia Library). El juego incluye movimiento del personaje, disparos, enemigos generados dinámicamente y una pantalla de inicio y fin. Sigue una estructura modular con clases bien definidas en un entorno de desarrollo organizado.
 
-Instalar todas las dependencias descritas abajo y dentro de una terminal de vscode ejecutar:
+---
 
-> make run'NombreEjecutable'
+## Estructura del Proyecto
 
-Por ejemplo para ejecutar '00_Ventana.cpp' correr el comando en la terminal de vscode:
+El proyecto está organizado en las siguientes carpetas:
 
-> make run00_Ventana
+- **/bin**: Contiene los archivos ejecutables generados.
+- **/docs**: Incluye documentación del proyecto, diagramas de clases y manuales de usuario.
+- **/data**: Contiene recursos como imágenes, fuentes y música necesarios para el juego.
+- **/include**: Archivos de encabezado (.hpp) que definen las clases principales del juego.
+- **/src**: Archivos fuente (.cpp) con las implementaciones de las clases y la lógica principal.
+- **Makefile**: Archivo que permite compilar y ejecutar fácilmente el proyecto.
 
+---
 
-## Programas necesarios
+## Requisitos del Sistema
 
-### Visual estudio code
-Descargar e instalar vscode en el siguiente [Enlace.](https://code.visualstudio.com/)
+- **Sistema Operativo**: Windows (compilado con MinGW64 utilizando MSYS2)
+- **Dependencias**:
+  - SFML 2.5+
+  - MinGW64 para compilar en Windows
 
-### MSYS2 (Windows)
+---
 
-Instalar Msys2 usando el siguiente [Enlace.](https://github.com/msys2/msys2-installer/releases/download/2023-05-26/msys2-x86_64-20230526.exe)
+## Cómo Configurar el Proyecto
 
-No modificar ningua opcion al momento de intalacion o podrian variar las configuraciones.
+### Instalación de Herramientas
 
-Una vez instalado es necesario agregar los siguientes directorios al path de windows y reiniciar.
+1. **Visual Studio Code**  
+   Descargar e instalar desde este [enlace](https://code.visualstudio.com/).
 
-> C:\msys64\mingw64\bin
+2. **MSYS2 (Windows)**  
+   Descargar e instalar desde este [enlace](https://github.com/msys2/msys2-installer/releases/download/2023-05-26/msys2-x86_64-20230526.exe).  
 
-> C:\msys64\usr\bin
+   No modificar ninguna opción al momento de la instalación para evitar problemas de configuración.  
+   Agregar los siguientes directorios al `PATH` del sistema y reiniciar el equipo:
+   - `C:\msys64\mingw64\bin`
+   - `C:\msys64\usr\bin`
 
-### Github Desktop
-Cliente de escritorio para clonar el repositorio, descargar usando el siguiente [enlace](https://desktop.github.com/).
+3. **Git**  
+   Descargar desde este [enlace](https://git-scm.com/).
 
-### Git
-Para poder realizar commits de vscode es necesario tener instalado Git, descargarlo del siguiente [enlace](https://git-scm.com/).
+4. **Github Desktop**  
+   Descargar el cliente para clonar repositorios desde este [enlace](https://desktop.github.com/).
 
+---
 
-## Librerias utilizadas (Msys2)
+## Instalación de Dependencias
 
-Ejecutar los siguientes comandos en la terminal de msys2 para instalar las dependencias necesarias
+En una terminal de **MSYS2**, ejecutar los siguientes comandos:
 
-### DevTools
-Compiladores y herramientas necesarias para el desarrollo.
-
-https://code.visualstudio.com/docs/cpp/config-mingw
-> pacman -S --needed base-devel mingw-w64-x86_64-toolchain
-
-### SFML
-https://packages.msys2.org/package/mingw-w64-x86_64-sfml
-> pacman -S mingw-w64-x86_64-sfml
-
-### Box2D simulaciones de fisica - C++
-https://box2d.org/documentation/
-https://packages.msys2.org/package/mingw-w64-x86_64-box2d?repo=mingw64
-pacman -S mingw-w64-x86_64-box2d
-
-## Complementos necesarios VSCode
-
-- Material Icon
-- C/C++
-- PlantUML
-- GitGraph
+### Instalar compiladores y herramientas de desarrollo
+```bash
+pacman -S --needed base-devel mingw-w64-x86_64-toolchain
