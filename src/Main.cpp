@@ -6,44 +6,7 @@
 #include <cstdlib>
 #include "../include/ClasePersonaje.hpp"
 #include "../include/ClaseProyectil.hpp"
-
-// Clase Enemigo
-class Enemigo {
-public:
-    Enemigo(const sf::Vector2f &position, sf::Texture &texture) : shootClock() {
-        sprite.setTexture(texture);
-        sprite.setPosition(position);
-        sprite.setScale(0.1f, 0.1f); // Ajuste del tamaño del enemigo para que sea proporcional
-    }
-
-    void move(float offsetX, float offsetY) {
-        sprite.move(offsetX, offsetY);
-    }
-
-    void draw(sf::RenderWindow &window) {
-        window.draw(sprite);
-    }
-
-    sf::Vector2f getPosition() const {
-        return sprite.getPosition();
-    }
-
-    sf::FloatRect getBounds() const {
-        return sprite.getGlobalBounds();
-    }
-
-    bool canShoot() {
-        if (shootClock.getElapsedTime().asSeconds() > 2.0f) {
-            shootClock.restart();
-            return true;
-        }
-        return false;
-    }
-
-private:
-    sf::Sprite sprite;
-    sf::Clock shootClock;
-};
+#include "../include/ClaseEnemigo.hpp"
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(1920, 1000), "Pantalla de Inicio Galaga");
